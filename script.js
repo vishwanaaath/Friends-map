@@ -88,6 +88,7 @@ d3.json("data.json").then((data) => {
     .attr("width", 50) // Set image size
     .attr("height", 50) // Set image size
     .attr("clip-path", (d) => `url(#clip-${d.id})`) // Apply the circular clip path
+    .attr("usn", (d) => d.usn) // Add the "usn" attribute from the JSON data
     .call(
       d3
         .drag()
@@ -149,31 +150,33 @@ document.getElementById("graph").addEventListener("click", () => {
 });
 
 
-
-
-
-
-// Handle input field for changing node style and creating connections
-let input = document.getElementById("input");
+// Handle input field for changing node style and creating connectionslet input = document.getElementById("input");
 input.addEventListener("keyup", (event) => {
   if (event.key === "Enter") {
-    let elementId = input.value.trim(); // Get the value from the input field and trim spaces
+    let elementKey = input.value.trim(); // Get input and trim spaces
 
-    // Use D3.js to select the node with the specified ID
-    let targetNode = d3.select(`#${elementId}`);
+    // Try selecting by ID first using getElementById to avoid selector issues
+    let targetNode = d3.select(document.getElementById(elementKey));
 
-    if (!targetNode.empty()) { // Check if the node exists
+    // If no node is found by ID, try selecting by "usn" attribute
+    if (targetNode.empty()) {
+      targetNode = d3.select(`[usn="${elementKey}"]`);
+    }
+
+    if (!targetNode.empty()) {
       // Reset all links to default color
       svg.selectAll(".link").attr("stroke", "transparent");
 
-      // Ensure data is properly linked
+      // Get the actual node ID
+      const nodeId = targetNode.attr("id");
+
+      // Highlight connected links
       svg
         .selectAll(".link")
-        .filter((d) => d.source.id === elementId || d.target.id === elementId)
+        .filter((d) => d.source.id === nodeId || d.target.id === nodeId)
         .attr("stroke", "#C4C4C4"); // Darken the connected links
-
     } else {
-      console.error(`Node with ID "${elementId}" not found.`); // Log an error if the node doesn't exist
+      console.error(`Node with ID or USN "${elementKey}" not found.`);
     }
   }
 });
