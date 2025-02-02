@@ -1,0 +1,68 @@
+.link { 
+  stroke-opacity: 0.9;
+}
+
+.node {
+  stroke: #fff;
+}
+
+.node text {
+  fill: #000;
+}
+
+body {
+  font-family: spotify;
+  margin: 0;
+  background-color: #fff;
+  padding: 0;
+  overflow: hidden; /* Prevent scrollbars */
+}
+@font-face {
+  font-family: spotify;
+  src: url("circular-std-medium-500.ttf");
+}
+
+/* Container styling */
+#graph {
+  width: 100vw; 
+  height: 100vh;
+}
+#hamburger {
+  height: 20px;
+  width: 30px;
+  z-index: 100;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 250px;
+  /* border: 1px solid #000; */
+}
+ 
+
+#search input {
+  z-index: 102;
+  height: 30px;
+  border: none;
+}
+#search input:focus {
+  outline: none;
+}
+ 
+
+.features{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+ z-index: 101;
+  margin-top: 50px;
+  width: 80%;
+  font-size: 15px; 
+}
